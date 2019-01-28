@@ -6,4 +6,4 @@ An example use case: When I am recording video, I use TimeCoder to mark points i
 
 ## Using the pre-built version
 
-There will be a pre-built version available for download through itch.io shortly.
+You can download a pre-built version from the [Releases](https://github.com/remmah/TimeCoder/releases) tab. There will also be a pre-built version available through itch.io.
