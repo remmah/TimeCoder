@@ -6,6 +6,6 @@ An example use case: When I am recording video, I use TimeCoder to mark points i
 
 **Please note:** This app does not currently have data persistence, so if you refresh the tab, you'll lose the stopwatch time and your list of timestamps. When I need to save a list of timestamps, I usually just take a screenshot of the list.
 
-## Using the pre-built version
+## Using the app
 
-You can download a pre-built version from the [Releases](https://github.com/remmah/TimeCoder/releases) tab. There will also be a pre-built version available through itch.io.
+If you're not interested in the code and just want to use the app, [head here](https://remmah.github.io/TimeCoder/) You can also download a pre-built version of the app from the [Releases](https://github.com/remmah/TimeCoder/releases) tab to use locally. There will also be a pre-built version available through itch.io in the future.
