@@ -6,7 +6,7 @@ import Json.Decode as Decode
 import Html exposing (..)
 import Html.Events exposing (onClick)
 import Time
-
+import Task
 
 
 -- MAIN
@@ -26,7 +26,8 @@ main =
 
 
 type alias Model =
-    { elapsedTime : Int
+    { startTime : Int 
+    , elapsedTime : Int
     , stopwatchIsRunning : Bool
     , timestamps : List Int
     }
@@ -34,7 +35,8 @@ type alias Model =
 
 init : () -> ( Model, Cmd Msg )
 init _ =
-    ( { elapsedTime = 0 -- use 3595 to test hour carryover quickly
+    ( { startTime = 0
+      , elapsedTime = 0 -- use 3595 to test hour carryover quickly
       , stopwatchIsRunning = False
       , timestamps = []
       }
@@ -54,6 +56,7 @@ keyDecoder =
 type Msg
     = IncrementElapsedTime Time.Posix
     | RunStopwatch
+    | AssignStartTime Time.Posix
     | HaltStopwatch
     | LogTimestamp
     | KeyPressed String
@@ -63,12 +66,17 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         IncrementElapsedTime time ->
-            ( { model | elapsedTime = model.elapsedTime + 1 }
+            ( { model | elapsedTime = ( Time.posixToMillis time ) - model.startTime }
             , Cmd.none
             )
 
         RunStopwatch ->
             ( { model | stopwatchIsRunning = True }
+            , Task.perform AssignStartTime Time.now
+            )
+
+        AssignStartTime currentTime ->
+            ( { model | startTime = ( Time.posixToMillis currentTime ) - model.elapsedTime }
             , Cmd.none
             )
 
@@ -118,10 +126,10 @@ view model =
     div []
         [ button [ onClick RunStopwatch ] [ text "Start" ]
         , button [ onClick HaltStopwatch ] [ text "Stop" ]
-        , div [] [ text (timestampStringView model.elapsedTime) ]
+        , div [] [ text ( timestampStringView model.elapsedTime ) ]
         , button [ onClick LogTimestamp ] [ text "Log Current Timestamp" ]
         , div [] [ text "Timestamps:" ]
-        , div [] (List.map timestampDivView model.timestamps)
+        , div [] ( List.map timestampDivView model.timestamps )
         ]
 
 
@@ -130,8 +138,9 @@ view model =
 
 
 timestampStringView : Int -> String
-timestampStringView timestamp =
+timestampStringView timestampms =
     let
+        timestamp = timestampms // 1000
         hours = extractDisplayHours timestamp
         minutes = extractDisplayMinutes timestamp
         seconds = extractDisplaySeconds timestamp
