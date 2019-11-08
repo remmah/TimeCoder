@@ -1,0 +1,16 @@
+body {
+  background-color: #cccccc;
+  color: #262626;
+  font-family: monospace;
+  font-size: 30pt;
+  text-align: center;
+  line-height: 1.5;
+}
+
+a { color: #262626; }
+
+a:visited { color: #262626; }
+
+header {
+  font-size: 12pt;
+}
