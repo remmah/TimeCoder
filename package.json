@@ -1,6 +1,6 @@
 {
   "name": "timecoder",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "Stopwatch that logs timestamps",
   "scripts": {
     "start": "parcel src/index.html",
